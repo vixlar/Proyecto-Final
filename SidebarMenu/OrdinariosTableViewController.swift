@@ -37,24 +37,41 @@ class OrdinariosTableViewController: UITableViewController {
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
-        return 0
+        return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        return 0
+        return 3
     }
 
-    /*
+    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! OrdinariosTableViewCell
 
         // Configure the cell...
+        
+        if (indexPath.row == 0) {
+            cell.lblMateria.text = "PROB. POLIT. SOC. Y ECON. DEL MEXICO CONTEMP."
+            cell.lblProfesor.text = "MEDINA ANCONA MARIA JOSE"
+            cell.lblFecha.text = "2015-05-26"
+            cell.lblHora.text = "07:00"
+        } else if (indexPath.row == 1) {
+            cell.lblMateria.text = "ANTROPOLOGIA"
+            cell.lblProfesor.text = "GIUSTINIANOVIC CHAVEZ OLGA ALICIA"
+            cell.lblFecha.text = "2015-05-28"
+            cell.lblHora.text = "07:00"
+        } else {
+            cell.lblMateria.text = "LITERATURA MEXICANA"
+            cell.lblProfesor.text = "GONZALEZ GOMEZ CARLOS EDUARDO"
+            cell.lblFecha.text = "2015-01-19"
+            cell.lblHora.text = "08:00"
+        }
 
         return cell
     }
-    */
+    
 
     /*
     // Override to support conditional editing of the table view.

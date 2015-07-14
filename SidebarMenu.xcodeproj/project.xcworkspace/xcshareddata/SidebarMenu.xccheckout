@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>AAEC7876-5976-491A-B93E-4CA0397A4D1C</string>
+	<key>IDESourceControlProjectName</key>
+	<string>project</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>CD6E4581330D9E4ADAFCB9242463B06A9FB27A0B</key>
+		<string>https://github.com/vixlar/Proyecto-Final.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>SidebarMenu.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>CD6E4581330D9E4ADAFCB9242463B06A9FB27A0B</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/vixlar/Proyecto-Final.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>CD6E4581330D9E4ADAFCB9242463B06A9FB27A0B</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>CD6E4581330D9E4ADAFCB9242463B06A9FB27A0B</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Proyecto%20Inicio</string>
+		</dict>
+	</array>
+</dict>
+</plist>
