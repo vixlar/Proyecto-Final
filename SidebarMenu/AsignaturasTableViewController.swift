@@ -7,10 +7,13 @@
 //
 
 import UIKit
+import CoreData
 
 class AsignaturasTableViewController: UITableViewController {
 
     @IBOutlet weak var menuButton: UIBarButtonItem!
+    var myList: Array<AnyObject> = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -25,6 +28,38 @@ class AsignaturasTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+    }
+    
+    @IBAction func actualizarAsignaturas(sender: AnyObject) {
+        //referencia al delegate
+        let appDel: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        //referencia al modelo
+        let cntxt:NSManagedObjectContext = appDel.managedObjectContext!
+        let entity = NSEntityDescription.entityForName("Asignaturas", inManagedObjectContext: cntxt)
+        
+        //crear instancia de los datos e inicializar
+        var newAsignatura = Asignaturas(entity:entity!, insertIntoManagedObjectContext: cntxt)
+        
+        //mapear propiedades
+        newAsignatura.materia = "PROB. POLIT SOC. Y ECON. DEL MEXICO CONTEM"
+        newAsignatura.maestro = "MARIA JOSE MEDINA"
+        
+        //grabar contexto
+        cntxt.save(nil)
+        
+        newAsignatura.materia = "ANTROPOLOGIA"
+        newAsignatura.maestro = "OLGA ALICIA CHAVEZ"
+        cntxt.save(nil)
+        
+        newAsignatura.materia = "LITERATURA MEXICANA"
+        newAsignatura.maestro = "CARLOS EDUARDO GONZALEZ GOMEZ"
+        cntxt.save(nil)
+        
+        //imprimir prueba
+        println(newAsignatura)
+        
+        self.viewDidAppear(true)
     }
 
     override func didReceiveMemoryWarning() {
@@ -43,7 +78,7 @@ class AsignaturasTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        return 3
+        return myList.count
     }
 
     
@@ -51,64 +86,36 @@ class AsignaturasTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! AsinaturasTableViewCell
 
         // Configure the cell...
-        if indexPath.row == 0 {
-            cell.lblMateria.text = "PROB. POLIT SOC. Y ECON. DEL MEXICO CONTEM"
-            cell.lblMaestro.text = "MARIA JOSE MEDINA"
-        } else if indexPath.row == 1 {
-            cell.lblMateria.text = "ANTROPOLOGIA"
-            cell.lblMaestro.text = "OLGA ALICIA CHAVEZ"
-        } else {
-            cell.lblMateria.text = "LITERATURA MEXICANA"
-            cell.lblMaestro.text = "CARLOS EDUARDO GONZALEZ GOMEZ"
-        }
-
+//        if indexPath.row == 0 {
+//            cell.lblMateria.text = "PROB. POLIT SOC. Y ECON. DEL MEXICO CONTEM"
+//            cell.lblMaestro.text = "MARIA JOSE MEDINA"
+//        } else if indexPath.row == 1 {
+//            cell.lblMateria.text = "ANTROPOLOGIA"
+//            cell.lblMaestro.text = "OLGA ALICIA CHAVEZ"
+//        } else {
+//            cell.lblMateria.text = "LITERATURA MEXICANA"
+//            cell.lblMaestro.text = "CARLOS EDUARDO GONZALEZ GOMEZ"
+//        }
+        let ip = indexPath
+        var data: NSManagedObject = myList[ip.row] as! NSManagedObject
+        cell.lblMateria.text = (data.valueForKeyPath("materia") as! String)
+        cell.lblMaestro.text = (data.valueForKeyPath("maestro") as! String)
+        
+        
+        
         return cell
     }
     
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the specified item to be editable.
-        return true
+    override func viewDidAppear(animated: Bool) {
+        //referencia al delegate
+        let appDel: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        //referencia al modelo
+        let cntxt:NSManagedObjectContext = appDel.managedObjectContext!
+        let freq = NSFetchRequest(entityName: "Asignaturas")
+        
+        myList = cntxt.executeFetchRequest(freq, error: nil)!
+        tableView.reloadData()
     }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    
 }
