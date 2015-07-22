@@ -681,7 +681,11 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Ordinarios" id="ACD-iD-aJq">
                         <barButtonItem key="leftBarButtonItem" image="menu" id="Smd-EQ-BIy"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="iFO-3e-rFd"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="iFO-3e-rFd">
+                            <connections>
+                                <action selector="actualizarOrdinarios:" destination="Ycy-hv-9iu" id="jSM-Mz-FDI"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="menuButton" destination="Smd-EQ-BIy" id="DSW-cb-Mpd"/>
@@ -782,7 +786,11 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Pagos" id="B7j-MB-bsx">
                         <barButtonItem key="leftBarButtonItem" image="menu" id="EJk-YT-36h"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="22I-bp-x5Z"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="22I-bp-x5Z">
+                            <connections>
+                                <action selector="actualizarPagos:" destination="Pj1-tT-KP1" id="2av-eP-n8z"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -1276,7 +1284,11 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Horarios" id="il5-pH-CJY">
                         <barButtonItem key="leftBarButtonItem" image="menu" id="c13-iP-00W"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="RCx-CX-kC0"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="RCx-CX-kC0">
+                            <connections>
+                                <action selector="actualizarHorarios:" destination="8g7-qa-M03" id="omI-qG-zyh"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="menuButton" destination="c13-iP-00W" id="WUH-G8-CfX"/>
@@ -1475,7 +1487,11 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Calificaciones" id="3cf-yE-Q4M">
                         <barButtonItem key="leftBarButtonItem" image="menu" id="3W7-SD-lCg"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="kv6-KE-odC"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="kv6-KE-odC">
+                            <connections>
+                                <action selector="actualizarCalificaciones:" destination="khg-k6-Jls" id="8vd-ZB-UMr"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="menuButton" destination="3W7-SD-lCg" id="VH7-qT-nt9"/>

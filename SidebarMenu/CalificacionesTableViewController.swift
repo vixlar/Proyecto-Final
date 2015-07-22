@@ -7,10 +7,13 @@
 //
 
 import UIKit
+import CoreData
 
 class CalificacionesTableViewController: UITableViewController {
 
     @IBOutlet weak var menuButton: UIBarButtonItem!
+    var myList: Array<AnyObject> = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -27,6 +30,57 @@ class CalificacionesTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
+    @IBAction func actualizarCalificaciones(sender: AnyObject) {
+        //referencia al delegate
+        let appDel: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        //referencia al modelo
+        let cntxt: NSManagedObjectContext = appDel.managedObjectContext!
+        let entity = NSEntityDescription.entityForName("Calificaciones", inManagedObjectContext: cntxt)
+        
+        //borrar lo que ya existía
+        var bas: NSManagedObject!
+        for bas: AnyObject in myList {
+            cntxt.deleteObject(bas as! NSManagedObject)
+        }
+        
+        //crear instancia y poner datos para materia 1
+        var newCalificacion = Calificaciones(entity:entity!, insertIntoManagedObjectContext: cntxt)
+        newCalificacion.materia = "ANTROPOLOGIA"
+        newCalificacion.parcial1 = "92"
+        newCalificacion.parcial2 = "100"
+        newCalificacion.parcial3 = "82"
+        newCalificacion.promedio = "91"
+        newCalificacion.ordinario = "91"
+        newCalificacion.final = "91"
+        cntxt.save(nil)
+        
+        //crear instancia y poner datos para materia 1
+        newCalificacion = Calificaciones(entity:entity!, insertIntoManagedObjectContext: cntxt)
+        newCalificacion.materia = "CONTABILIDAD"
+        newCalificacion.parcial1 = "79"
+        newCalificacion.parcial2 = "88"
+        newCalificacion.parcial3 = "76"
+        newCalificacion.promedio = "81"
+        newCalificacion.ordinario = "27"
+        newCalificacion.final = "65"
+        cntxt.save(nil)
+        
+        //crear instancia y poner datos para materia 1
+        newCalificacion = Calificaciones(entity:entity!, insertIntoManagedObjectContext: cntxt)
+        newCalificacion.materia = "EDUCACION FISICA Y ARTISTICA 6"
+        newCalificacion.parcial1 = "A"
+        newCalificacion.parcial2 = "A"
+        newCalificacion.parcial3 = "A"
+        newCalificacion.promedio = "A"
+        newCalificacion.ordinario = "A"
+        newCalificacion.final = "A"
+        cntxt.save(nil)
+        
+        //recargar la pantalla
+        self.viewDidAppear(true)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -43,7 +97,7 @@ class CalificacionesTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        return 3
+        return myList.count
     }
 
     
@@ -51,7 +105,7 @@ class CalificacionesTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! CalificacioinesTableViewCell
 
         // Configure the cell...
-        
+        /*
         if (indexPath.row == 0) {
             cell.lblMateria.text = "ANTROPOLOGIA"
             cell.lblParcial1.text = "92"
@@ -77,8 +131,29 @@ class CalificacionesTableViewController: UITableViewController {
             cell.lblOrdinario.text = "A"
             cell.lblFinal.text = "A"
         }
+        */
+        var data: NSManagedObject = myList[indexPath.row] as! NSManagedObject
+        cell.lblMateria.text = (data.valueForKeyPath("materia") as! String)
+        cell.lblParcial1.text = (data.valueForKeyPath("parcial1") as! String)
+        cell.lblParcial2.text = (data.valueForKeyPath("parcial2") as! String)
+        cell.lblParcial3.text = (data.valueForKeyPath("parcial3") as! String)
+        cell.lblPromedio.text = (data.valueForKeyPath("promedio") as! String)
+        cell.lblOrdinario.text = (data.valueForKeyPath("ordinario") as! String)
+        cell.lblFinal.text = (data.valueForKeyPath("final") as! String)
 
         return cell
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        //referencia al delegate
+        let appDel: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        //referencia al modelo
+        let cntxt:NSManagedObjectContext = appDel.managedObjectContext!
+        let freq = NSFetchRequest(entityName: "Calificaciones")
+        
+        myList = cntxt.executeFetchRequest(freq, error: nil)!
+        tableView.reloadData()
     }
     
 

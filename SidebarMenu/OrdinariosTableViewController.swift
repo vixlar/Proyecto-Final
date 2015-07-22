@@ -7,10 +7,13 @@
 //
 
 import UIKit
+import CoreData
 
 class OrdinariosTableViewController: UITableViewController {
 
     @IBOutlet var menuButton: UIBarButtonItem!
+    var myList: Array<AnyObject> = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -27,6 +30,48 @@ class OrdinariosTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
+    @IBAction func actualizarOrdinarios(sender: AnyObject) {
+        //referencia al delegate
+        let appDel: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        //referencia al modelo
+        let cntxt: NSManagedObjectContext = appDel.managedObjectContext!
+        let entity = NSEntityDescription.entityForName("Ordinarios", inManagedObjectContext: cntxt)
+        
+        //borrar lo que ya existía
+        var bas: NSManagedObject!
+        for bas: AnyObject in myList {
+            cntxt.deleteObject(bas as! NSManagedObject)
+        }
+        
+        //crear instancia y poner datos para ordinario 1
+        var newOrdinario = Ordinarios(entity:entity!, insertIntoManagedObjectContext: cntxt)
+        newOrdinario.materia = "PROB. POLIT. SOC. Y ECON. DEL MEXICO CONTEMP."
+        newOrdinario.maestro = "MEDINA ANCONA MARIA JOSE"
+        newOrdinario.fecha = "2015-05-26"
+        newOrdinario.hora = "07:00"
+        cntxt.save(nil)
+        
+        //crear instancia y poner datos para ordinario 2
+        newOrdinario = Ordinarios(entity:entity!, insertIntoManagedObjectContext: cntxt)
+        newOrdinario.materia = "ANTROPOLOGIA"
+        newOrdinario.maestro = "GIUSTINIANOVIC CHAVEZ OLGA ALICIA"
+        newOrdinario.fecha = "2015-05-28"
+        newOrdinario.hora = "07:00"
+        cntxt.save(nil)
+        
+        //crear instancia y poner datos para ordinario 3
+        newOrdinario = Ordinarios(entity:entity!, insertIntoManagedObjectContext: cntxt)
+        newOrdinario.materia = "LITERATURA MEXICANA"
+        newOrdinario.maestro = "GONZALEZ GOMEZ CARLOS EDUARDO"
+        newOrdinario.fecha = "2015-01-19"
+        newOrdinario.hora = "08:00"
+        cntxt.save(nil)
+        
+        //recargar la pantalla
+        self.viewDidAppear(true)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -43,7 +88,7 @@ class OrdinariosTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        return 3
+        return myList.count
     }
 
     
@@ -51,7 +96,7 @@ class OrdinariosTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! OrdinariosTableViewCell
 
         // Configure the cell...
-        
+        /*
         if (indexPath.row == 0) {
             cell.lblMateria.text = "PROB. POLIT. SOC. Y ECON. DEL MEXICO CONTEMP."
             cell.lblProfesor.text = "MEDINA ANCONA MARIA JOSE"
@@ -68,8 +113,27 @@ class OrdinariosTableViewController: UITableViewController {
             cell.lblFecha.text = "2015-01-19"
             cell.lblHora.text = "08:00"
         }
-
+        */
+        
+        var data: NSManagedObject = myList[indexPath.row] as! NSManagedObject
+        cell.lblMateria.text = (data.valueForKeyPath("materia") as! String)
+        cell.lblProfesor.text = (data.valueForKeyPath("maestro") as! String)
+        cell.lblFecha.text = (data.valueForKeyPath("fecha") as! String)
+        cell.lblHora.text = (data.valueForKeyPath("hora") as! String)
+        
         return cell
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        //referencia al delegate
+        let appDel: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        //referencia al modelo
+        let cntxt:NSManagedObjectContext = appDel.managedObjectContext!
+        let freq = NSFetchRequest(entityName: "Ordinarios")
+        
+        myList = cntxt.executeFetchRequest(freq, error: nil)!
+        tableView.reloadData()
     }
     
 

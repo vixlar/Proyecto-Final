@@ -7,10 +7,13 @@
 //
 
 import UIKit
+import CoreData
 
 class HorariosTableViewController: UITableViewController {
 
     @IBOutlet weak var menuButton: UIBarButtonItem!
+    var myList: Array<AnyObject> = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -25,6 +28,58 @@ class HorariosTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+    }
+    
+    
+    @IBAction func actualizarHorarios(sender: AnyObject) {
+        //referencia al delegate
+        let appDel: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        //referencia al modelo
+        let cntxt: NSManagedObjectContext = appDel.managedObjectContext!
+        let entity = NSEntityDescription.entityForName("Horarios", inManagedObjectContext: cntxt)
+        
+        //borrar lo que ya existía
+        var bas: NSManagedObject!
+        for bas: AnyObject in myList {
+            cntxt.deleteObject(bas as! NSManagedObject)
+        }
+        
+        //crear instancia y poner datos para materia 1
+        var newHorario = Horarios(entity:entity!, insertIntoManagedObjectContext: cntxt)
+        newHorario.materia = "PROB. POLIT. SOC. Y ECON. DEL MEXICO CONTEM"
+        newHorario.lunes = "07-08"
+        newHorario.martes = "-"
+        newHorario.miercoles = "07-08"
+        newHorario.jueves = "-"
+        newHorario.viernes = "-"
+        newHorario.sabado = "-"
+        cntxt.save(nil)
+        
+        //crear instancia y poner datos para materia 2
+        newHorario = Horarios(entity:entity!, insertIntoManagedObjectContext: cntxt)
+        newHorario.materia = "ANTROPOLOGIA"
+        newHorario.lunes = "08-09"
+        newHorario.martes = "08-09"
+        newHorario.miercoles = "-"
+        newHorario.jueves = "12-13"
+        newHorario.viernes = "-"
+        newHorario.sabado = "-"
+        cntxt.save(nil)
+        
+        //crear instancia y poner datos para materia 3
+        newHorario = Horarios(entity:entity!, insertIntoManagedObjectContext: cntxt)
+        newHorario.materia = "CONTABILIDAD"
+        newHorario.lunes = "09-10"
+        newHorario.martes = "-"
+        newHorario.miercoles = "09-10"
+        newHorario.jueves = "-"
+        newHorario.viernes = "09-10"
+        newHorario.sabado = "-"
+        cntxt.save(nil)
+        
+        //recargar la pantalla
+        self.viewDidAppear(true)
     }
 
     override func didReceiveMemoryWarning() {
@@ -43,7 +98,7 @@ class HorariosTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        return 3
+        return myList.count
     }
 
     
@@ -51,6 +106,7 @@ class HorariosTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! HorariosTableViewCell
 
         // Configure the cell...
+        /*
         if indexPath.row == 0 {
             cell.lblMateria.text = "PROB. POLIT. SOC. Y ECON. DEL MEXICO CONTEM"
             cell.lblLun.text = "07-08"
@@ -76,8 +132,30 @@ class HorariosTableViewController: UITableViewController {
             cell.lblVie.text = "09-10"
             cell.lblSab.text = "-"
         }
+        */
+        
+        var data: NSManagedObject = myList[indexPath.row] as! NSManagedObject
+        cell.lblMateria.text = (data.valueForKeyPath("materia") as! String)
+        cell.lblLun.text = (data.valueForKeyPath("lunes") as! String)
+        cell.lblMar.text = (data.valueForKeyPath("martes") as! String)
+        cell.lblMie.text = (data.valueForKeyPath("miercoles") as! String)
+        cell.lblJue.text = (data.valueForKeyPath("jueves") as! String)
+        cell.lblVie.text = (data.valueForKeyPath("viernes") as! String)
+        cell.lblSab.text = (data.valueForKeyPath("sabado") as! String)
 
         return cell
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        //referencia al delegate
+        let appDel: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        //referencia al modelo
+        let cntxt:NSManagedObjectContext = appDel.managedObjectContext!
+        let freq = NSFetchRequest(entityName: "Horarios")
+        
+        myList = cntxt.executeFetchRequest(freq, error: nil)!
+        tableView.reloadData()
     }
     
 

@@ -38,6 +38,12 @@ class AsignaturasTableViewController: UITableViewController {
         let cntxt:NSManagedObjectContext = appDel.managedObjectContext!
         let entity = NSEntityDescription.entityForName("Asignaturas", inManagedObjectContext: cntxt)
         
+        //borrar lo que ya exista
+        var bas: NSManagedObject!
+        for bas: AnyObject in myList {
+            cntxt.deleteObject(bas as! NSManagedObject)
+        }
+        
         //crear instancia de los datos e inicializar
         var newAsignatura = Asignaturas(entity:entity!, insertIntoManagedObjectContext: cntxt)
         
@@ -48,16 +54,18 @@ class AsignaturasTableViewController: UITableViewController {
         //grabar contexto
         cntxt.save(nil)
         
+        newAsignatura = Asignaturas(entity:entity!, insertIntoManagedObjectContext: cntxt)
         newAsignatura.materia = "ANTROPOLOGIA"
         newAsignatura.maestro = "OLGA ALICIA CHAVEZ"
         cntxt.save(nil)
         
+        newAsignatura = Asignaturas(entity:entity!, insertIntoManagedObjectContext: cntxt)
         newAsignatura.materia = "LITERATURA MEXICANA"
         newAsignatura.maestro = "CARLOS EDUARDO GONZALEZ GOMEZ"
         cntxt.save(nil)
         
         //imprimir prueba
-        println(newAsignatura)
+        //println(newAsignatura)
         
         self.viewDidAppear(true)
     }
@@ -96,8 +104,7 @@ class AsignaturasTableViewController: UITableViewController {
 //            cell.lblMateria.text = "LITERATURA MEXICANA"
 //            cell.lblMaestro.text = "CARLOS EDUARDO GONZALEZ GOMEZ"
 //        }
-        let ip = indexPath
-        var data: NSManagedObject = myList[ip.row] as! NSManagedObject
+        var data: NSManagedObject = myList[indexPath.row] as! NSManagedObject
         cell.lblMateria.text = (data.valueForKeyPath("materia") as! String)
         cell.lblMaestro.text = (data.valueForKeyPath("maestro") as! String)
         

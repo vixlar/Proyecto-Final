@@ -7,10 +7,12 @@
 //
 
 import UIKit
+import CoreData
 
 class PagosTableViewController: UITableViewController {
 
     @IBOutlet weak var menuButton: UIBarButtonItem!
+    var myList: Array<AnyObject> = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +30,42 @@ class PagosTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
+    @IBAction func actualizarPagos(sender: AnyObject) {
+        //referencia al delegate
+        let appDel: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        //referencia al modelo
+        let cntxt: NSManagedObjectContext = appDel.managedObjectContext!
+        let entity = NSEntityDescription.entityForName("Pagos", inManagedObjectContext: cntxt)
+        
+        //borrar lo que ya existía
+        var bas: NSManagedObject!
+        for bas: AnyObject in myList {
+            cntxt.deleteObject(bas as! NSManagedObject)
+        }
+        
+        //crear instancia y poner datos para pago 1
+        var newPago = Pagos(entity:entity!, insertIntoManagedObjectContext: cntxt)
+        newPago.descripcion = "Pago de Inscripción de Inicio de Curso"
+        newPago.fecha = "2014-02-24"
+        cntxt.save(nil)
+        
+        //crear instancia y poner datos para pago 2
+        newPago = Pagos(entity:entity!, insertIntoManagedObjectContext: cntxt)
+        newPago.descripcion = "Pago del mes de Septiembre"
+        newPago.fecha = "2014-09-04"
+        cntxt.save(nil)
+        
+        //crear instancia y poner datos para pago 3
+        newPago = Pagos(entity:entity!, insertIntoManagedObjectContext: cntxt)
+        newPago.descripcion = "Pago del mes de Octubre"
+        newPago.fecha = "2014-10-02"
+        cntxt.save(nil)
+
+        //recargar la pantalla
+        self.viewDidAppear(true)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -44,7 +82,7 @@ class PagosTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        return 3
+        return myList.count
     }
 
     
@@ -52,7 +90,7 @@ class PagosTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! PagosTableViewCell
 
         // Configure the cell...
-        
+        /*
         if (indexPath.row == 0) {
             cell.lblConcepto.text = "Pago de Inscripción de Inicio de Curso"
             cell.lblFecha.text = "2014-02-24"
@@ -63,8 +101,25 @@ class PagosTableViewController: UITableViewController {
             cell.lblConcepto.text = "Pago del mes de Octubre"
             cell.lblFecha.text = "2014-10-02"
         }
-
+        */
+        
+        var data: NSManagedObject = myList[indexPath.row] as! NSManagedObject
+        cell.lblConcepto.text = (data.valueForKeyPath("descripcion") as! String)
+        cell.lblFecha.text = (data.valueForKeyPath("fecha") as! String)
+        
         return cell
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        //referencia al delegate
+        let appDel: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        //referencia al modelo
+        let cntxt:NSManagedObjectContext = appDel.managedObjectContext!
+        let freq = NSFetchRequest(entityName: "Pagos")
+        
+        myList = cntxt.executeFetchRequest(freq, error: nil)!
+        tableView.reloadData()
     }
     
 
