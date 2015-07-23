@@ -31,42 +31,12 @@ class OrdinariosTableViewController: UITableViewController {
     }
 
     @IBAction func actualizarOrdinarios(sender: AnyObject) {
-        //referencia al delegate
-        let appDel: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        //borrar lo que ya exista
+        var mDatos: ManejaDatos = ManejaDatos()
+        mDatos.borrarTodo()
         
-        //referencia al modelo
-        let cntxt: NSManagedObjectContext = appDel.managedObjectContext!
-        let entity = NSEntityDescription.entityForName("Ordinarios", inManagedObjectContext: cntxt)
-        
-        //borrar lo que ya existía
-        var bas: NSManagedObject!
-        for bas: AnyObject in myList {
-            cntxt.deleteObject(bas as! NSManagedObject)
-        }
-        
-        //crear instancia y poner datos para ordinario 1
-        var newOrdinario = Ordinarios(entity:entity!, insertIntoManagedObjectContext: cntxt)
-        newOrdinario.materia = "PROB. POLIT. SOC. Y ECON. DEL MEXICO CONTEMP."
-        newOrdinario.maestro = "MEDINA ANCONA MARIA JOSE"
-        newOrdinario.fecha = "2015-05-26"
-        newOrdinario.hora = "07:00"
-        cntxt.save(nil)
-        
-        //crear instancia y poner datos para ordinario 2
-        newOrdinario = Ordinarios(entity:entity!, insertIntoManagedObjectContext: cntxt)
-        newOrdinario.materia = "ANTROPOLOGIA"
-        newOrdinario.maestro = "GIUSTINIANOVIC CHAVEZ OLGA ALICIA"
-        newOrdinario.fecha = "2015-05-28"
-        newOrdinario.hora = "07:00"
-        cntxt.save(nil)
-        
-        //crear instancia y poner datos para ordinario 3
-        newOrdinario = Ordinarios(entity:entity!, insertIntoManagedObjectContext: cntxt)
-        newOrdinario.materia = "LITERATURA MEXICANA"
-        newOrdinario.maestro = "GONZALEZ GOMEZ CARLOS EDUARDO"
-        newOrdinario.fecha = "2015-01-19"
-        newOrdinario.hora = "08:00"
-        cntxt.save(nil)
+        //actualizar datos
+        mDatos.actualizarDatos()
         
         //recargar la pantalla
         self.viewDidAppear(true)
@@ -96,25 +66,6 @@ class OrdinariosTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! OrdinariosTableViewCell
 
         // Configure the cell...
-        /*
-        if (indexPath.row == 0) {
-            cell.lblMateria.text = "PROB. POLIT. SOC. Y ECON. DEL MEXICO CONTEMP."
-            cell.lblProfesor.text = "MEDINA ANCONA MARIA JOSE"
-            cell.lblFecha.text = "2015-05-26"
-            cell.lblHora.text = "07:00"
-        } else if (indexPath.row == 1) {
-            cell.lblMateria.text = "ANTROPOLOGIA"
-            cell.lblProfesor.text = "GIUSTINIANOVIC CHAVEZ OLGA ALICIA"
-            cell.lblFecha.text = "2015-05-28"
-            cell.lblHora.text = "07:00"
-        } else {
-            cell.lblMateria.text = "LITERATURA MEXICANA"
-            cell.lblProfesor.text = "GONZALEZ GOMEZ CARLOS EDUARDO"
-            cell.lblFecha.text = "2015-01-19"
-            cell.lblHora.text = "08:00"
-        }
-        */
-        
         var data: NSManagedObject = myList[indexPath.row] as! NSManagedObject
         cell.lblMateria.text = (data.valueForKeyPath("materia") as! String)
         cell.lblProfesor.text = (data.valueForKeyPath("maestro") as! String)

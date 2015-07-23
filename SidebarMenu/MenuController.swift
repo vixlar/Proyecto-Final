@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class MenuController: UITableViewController {
 
@@ -24,8 +25,71 @@ class MenuController: UITableViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-
+    
+   
+    @IBAction func borrarTodo(sender: AnyObject) {
+        //preguntar si de verdad quiere borrar los datos del teléfono
+        let alertController = UIAlertController(title: "iOScreator", message:
+            "¿Desea borrar sus datos del teléfono?", preferredStyle: UIAlertControllerStyle.Alert)
+        alertController.addAction(UIAlertAction(title: "Aceptar", style: UIAlertActionStyle.Default,handler: nil))
+        alertController.addAction(UIAlertAction(title: "Cancelar", style: UIAlertActionStyle.Default, handler: nil))
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
+        
+        var myList: Array<AnyObject> = []
+        
+        //referencia al delegate
+        let appDel: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        var bas: NSManagedObject!
+        
+        //referencia al modelo
+        let cntxt:NSManagedObjectContext = appDel.managedObjectContext!
+        
+        //borrar Asignaturas
+        var freq = NSFetchRequest(entityName: "Asignaturas")
+        
+        myList = cntxt.executeFetchRequest(freq, error: nil)!
+        
+        for bas: AnyObject in myList {
+            cntxt.deleteObject(bas as! NSManagedObject)
+        }
+        
+        //borrar Horarios
+        freq = NSFetchRequest(entityName: "Horarios")
+        
+        myList = cntxt.executeFetchRequest(freq, error: nil)!
+        
+        for bas: AnyObject in myList {
+            cntxt.deleteObject(bas as! NSManagedObject)
+        }
+        
+        //borrar Calificaciones
+        freq = NSFetchRequest(entityName: "Calificaciones")
+        
+        myList = cntxt.executeFetchRequest(freq, error: nil)!
+        
+        for bas: AnyObject in myList {
+            cntxt.deleteObject(bas as! NSManagedObject)
+        }
+        
+        //borrar Ordinarios
+        freq = NSFetchRequest(entityName: "Ordinarios")
+        
+        myList = cntxt.executeFetchRequest(freq, error: nil)!
+        
+        for bas: AnyObject in myList {
+            cntxt.deleteObject(bas as! NSManagedObject)
+        }
+        
+        //borrar Pagos
+        freq = NSFetchRequest(entityName: "Pagos")
+        
+        myList = cntxt.executeFetchRequest(freq, error: nil)!
+        
+        for bas: AnyObject in myList {
+            cntxt.deleteObject(bas as! NSManagedObject)
+        }
+    }
     
     // MARK: - Table view data source
 

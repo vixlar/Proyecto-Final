@@ -32,51 +32,12 @@ class HorariosTableViewController: UITableViewController {
     
     
     @IBAction func actualizarHorarios(sender: AnyObject) {
-        //referencia al delegate
-        let appDel: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        //borrar lo que ya exista
+        var mDatos: ManejaDatos = ManejaDatos()
+        mDatos.borrarTodo()
         
-        //referencia al modelo
-        let cntxt: NSManagedObjectContext = appDel.managedObjectContext!
-        let entity = NSEntityDescription.entityForName("Horarios", inManagedObjectContext: cntxt)
-        
-        //borrar lo que ya existía
-        var bas: NSManagedObject!
-        for bas: AnyObject in myList {
-            cntxt.deleteObject(bas as! NSManagedObject)
-        }
-        
-        //crear instancia y poner datos para materia 1
-        var newHorario = Horarios(entity:entity!, insertIntoManagedObjectContext: cntxt)
-        newHorario.materia = "PROB. POLIT. SOC. Y ECON. DEL MEXICO CONTEM"
-        newHorario.lunes = "07-08"
-        newHorario.martes = "-"
-        newHorario.miercoles = "07-08"
-        newHorario.jueves = "-"
-        newHorario.viernes = "-"
-        newHorario.sabado = "-"
-        cntxt.save(nil)
-        
-        //crear instancia y poner datos para materia 2
-        newHorario = Horarios(entity:entity!, insertIntoManagedObjectContext: cntxt)
-        newHorario.materia = "ANTROPOLOGIA"
-        newHorario.lunes = "08-09"
-        newHorario.martes = "08-09"
-        newHorario.miercoles = "-"
-        newHorario.jueves = "12-13"
-        newHorario.viernes = "-"
-        newHorario.sabado = "-"
-        cntxt.save(nil)
-        
-        //crear instancia y poner datos para materia 3
-        newHorario = Horarios(entity:entity!, insertIntoManagedObjectContext: cntxt)
-        newHorario.materia = "CONTABILIDAD"
-        newHorario.lunes = "09-10"
-        newHorario.martes = "-"
-        newHorario.miercoles = "09-10"
-        newHorario.jueves = "-"
-        newHorario.viernes = "09-10"
-        newHorario.sabado = "-"
-        cntxt.save(nil)
+        //actualizar datos
+        mDatos.actualizarDatos()
         
         //recargar la pantalla
         self.viewDidAppear(true)
@@ -106,34 +67,6 @@ class HorariosTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! HorariosTableViewCell
 
         // Configure the cell...
-        /*
-        if indexPath.row == 0 {
-            cell.lblMateria.text = "PROB. POLIT. SOC. Y ECON. DEL MEXICO CONTEM"
-            cell.lblLun.text = "07-08"
-            cell.lblMar.text = "-"
-            cell.lblMie.text = "07-08"
-            cell.lblJue.text = "08-09"
-            cell.lblVie.text = "-"
-            cell.lblSab.text = "-"
-        } else if indexPath.row == 1 {
-            cell.lblMateria.text = "ANTROPOLOGIA"
-            cell.lblLun.text = "08-09"
-            cell.lblMar.text = "08-09"
-            cell.lblMie.text = "-"
-            cell.lblJue.text = "12-13"
-            cell.lblVie.text = "-"
-            cell.lblSab.text = "-"
-        } else {
-            cell.lblMateria.text = "CONTABILIDAD"
-            cell.lblLun.text = "09-10"
-            cell.lblMar.text = "-"
-            cell.lblMie.text = "09-10"
-            cell.lblJue.text = "-"
-            cell.lblVie.text = "09-10"
-            cell.lblSab.text = "-"
-        }
-        */
-        
         var data: NSManagedObject = myList[indexPath.row] as! NSManagedObject
         cell.lblMateria.text = (data.valueForKeyPath("materia") as! String)
         cell.lblLun.text = (data.valueForKeyPath("lunes") as! String)

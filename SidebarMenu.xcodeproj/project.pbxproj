@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6F13CD031B61501C00A035C6 /* ManejaDatos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F13CD021B61501C00A035C6 /* ManejaDatos.swift */; };
 		6F4104B71B4FF2810088C47B /* AsinaturasTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F4104B61B4FF2810088C47B /* AsinaturasTableViewCell.swift */; };
 		6F4317B21B45A64D008C891D /* OrdinariosTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F4317B11B45A64D008C891D /* OrdinariosTableViewController.swift */; };
 		6F4317B41B45A854008C891D /* PagosTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F4317B31B45A854008C891D /* PagosTableViewController.swift */; };
@@ -51,6 +52,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6F13CD021B61501C00A035C6 /* ManejaDatos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManejaDatos.swift; sourceTree = "<group>"; };
 		6F4104B61B4FF2810088C47B /* AsinaturasTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsinaturasTableViewCell.swift; sourceTree = "<group>"; };
 		6F4317B11B45A64D008C891D /* OrdinariosTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrdinariosTableViewController.swift; sourceTree = "<group>"; };
 		6F4317B31B45A854008C891D /* PagosTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PagosTableViewController.swift; sourceTree = "<group>"; };
@@ -161,6 +163,7 @@
 				6F9CA7221B46DE1200C416E5 /* ReportesViewController.swift */,
 				6F9CA7241B46DE2B00C416E5 /* ContactoViewController.swift */,
 				6F531D9D1B4D886E00501046 /* Model.xcdatamodeld */,
+				6F13CD021B61501C00A035C6 /* ManejaDatos.swift */,
 			);
 			path = SidebarMenu;
 			sourceTree = "<group>";
@@ -320,6 +323,7 @@
 				6F4317BA1B45C663008C891D /* CalificacionesTableViewController.swift in Sources */,
 				F491E7531A7F7DF20026528E /* MapViewController.swift in Sources */,
 				6F531D9F1B4D886E00501046 /* Model.xcdatamodeld in Sources */,
+				6F13CD031B61501C00A035C6 /* ManejaDatos.swift in Sources */,
 				F491E74A1A7F4B300026528E /* NewsTableViewController.swift in Sources */,
 				6FEC29771B557FD4007265FC /* OrdinariosTableViewCell.swift in Sources */,
 				6F5D41E81B50425E00964412 /* HorariosTableViewCell.swift in Sources */,

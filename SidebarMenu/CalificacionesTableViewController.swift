@@ -31,51 +31,12 @@ class CalificacionesTableViewController: UITableViewController {
     }
 
     @IBAction func actualizarCalificaciones(sender: AnyObject) {
-        //referencia al delegate
-        let appDel: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        //borrar lo que ya exista
+        var mDatos: ManejaDatos = ManejaDatos()
+        mDatos.borrarTodo()
         
-        //referencia al modelo
-        let cntxt: NSManagedObjectContext = appDel.managedObjectContext!
-        let entity = NSEntityDescription.entityForName("Calificaciones", inManagedObjectContext: cntxt)
-        
-        //borrar lo que ya existía
-        var bas: NSManagedObject!
-        for bas: AnyObject in myList {
-            cntxt.deleteObject(bas as! NSManagedObject)
-        }
-        
-        //crear instancia y poner datos para materia 1
-        var newCalificacion = Calificaciones(entity:entity!, insertIntoManagedObjectContext: cntxt)
-        newCalificacion.materia = "ANTROPOLOGIA"
-        newCalificacion.parcial1 = "92"
-        newCalificacion.parcial2 = "100"
-        newCalificacion.parcial3 = "82"
-        newCalificacion.promedio = "91"
-        newCalificacion.ordinario = "91"
-        newCalificacion.final = "91"
-        cntxt.save(nil)
-        
-        //crear instancia y poner datos para materia 1
-        newCalificacion = Calificaciones(entity:entity!, insertIntoManagedObjectContext: cntxt)
-        newCalificacion.materia = "CONTABILIDAD"
-        newCalificacion.parcial1 = "79"
-        newCalificacion.parcial2 = "88"
-        newCalificacion.parcial3 = "76"
-        newCalificacion.promedio = "81"
-        newCalificacion.ordinario = "27"
-        newCalificacion.final = "65"
-        cntxt.save(nil)
-        
-        //crear instancia y poner datos para materia 1
-        newCalificacion = Calificaciones(entity:entity!, insertIntoManagedObjectContext: cntxt)
-        newCalificacion.materia = "EDUCACION FISICA Y ARTISTICA 6"
-        newCalificacion.parcial1 = "A"
-        newCalificacion.parcial2 = "A"
-        newCalificacion.parcial3 = "A"
-        newCalificacion.promedio = "A"
-        newCalificacion.ordinario = "A"
-        newCalificacion.final = "A"
-        cntxt.save(nil)
+        //actualizar datos
+        mDatos.actualizarDatos()
         
         //recargar la pantalla
         self.viewDidAppear(true)
@@ -105,33 +66,6 @@ class CalificacionesTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! CalificacioinesTableViewCell
 
         // Configure the cell...
-        /*
-        if (indexPath.row == 0) {
-            cell.lblMateria.text = "ANTROPOLOGIA"
-            cell.lblParcial1.text = "92"
-            cell.lblParcial2.text = "100"
-            cell.lblParcial3.text = "82"
-            cell.lblPromedio.text = "91"
-            cell.lblOrdinario.text = "91"
-            cell.lblFinal.text = "91"
-        } else if (indexPath.row == 1) {
-            cell.lblMateria.text = "CONTABILIDAD"
-            cell.lblParcial1.text = "79"
-            cell.lblParcial2.text = "88"
-            cell.lblParcial3.text = "76"
-            cell.lblPromedio.text = "81"
-            cell.lblOrdinario.text = "27"
-            cell.lblFinal.text = "65"
-        } else {
-            cell.lblMateria.text = "EDUCACION FISICA Y ARTISTICA 6"
-            cell.lblParcial1.text = "A"
-            cell.lblParcial2.text = "A"
-            cell.lblParcial3.text = "A"
-            cell.lblPromedio.text = "A"
-            cell.lblOrdinario.text = "A"
-            cell.lblFinal.text = "A"
-        }
-        */
         var data: NSManagedObject = myList[indexPath.row] as! NSManagedObject
         cell.lblMateria.text = (data.valueForKeyPath("materia") as! String)
         cell.lblParcial1.text = (data.valueForKeyPath("parcial1") as! String)

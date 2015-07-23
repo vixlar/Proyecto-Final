@@ -31,38 +31,13 @@ class AsignaturasTableViewController: UITableViewController {
     }
     
     @IBAction func actualizarAsignaturas(sender: AnyObject) {
-        //referencia al delegate
-        let appDel: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        
-        //referencia al modelo
-        let cntxt:NSManagedObjectContext = appDel.managedObjectContext!
-        let entity = NSEntityDescription.entityForName("Asignaturas", inManagedObjectContext: cntxt)
         
         //borrar lo que ya exista
-        var bas: NSManagedObject!
-        for bas: AnyObject in myList {
-            cntxt.deleteObject(bas as! NSManagedObject)
-        }
+        var mDatos: ManejaDatos = ManejaDatos()
+        mDatos.borrarTodo()
         
-        //crear instancia de los datos e inicializar
-        var newAsignatura = Asignaturas(entity:entity!, insertIntoManagedObjectContext: cntxt)
-        
-        //mapear propiedades
-        newAsignatura.materia = "PROB. POLIT SOC. Y ECON. DEL MEXICO CONTEM"
-        newAsignatura.maestro = "MARIA JOSE MEDINA"
-        
-        //grabar contexto
-        cntxt.save(nil)
-        
-        newAsignatura = Asignaturas(entity:entity!, insertIntoManagedObjectContext: cntxt)
-        newAsignatura.materia = "ANTROPOLOGIA"
-        newAsignatura.maestro = "OLGA ALICIA CHAVEZ"
-        cntxt.save(nil)
-        
-        newAsignatura = Asignaturas(entity:entity!, insertIntoManagedObjectContext: cntxt)
-        newAsignatura.materia = "LITERATURA MEXICANA"
-        newAsignatura.maestro = "CARLOS EDUARDO GONZALEZ GOMEZ"
-        cntxt.save(nil)
+        //Actualizar datos
+        mDatos.actualizarDatos()
         
         //imprimir prueba
         //println(newAsignatura)
@@ -94,16 +69,6 @@ class AsignaturasTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! AsinaturasTableViewCell
 
         // Configure the cell...
-//        if indexPath.row == 0 {
-//            cell.lblMateria.text = "PROB. POLIT SOC. Y ECON. DEL MEXICO CONTEM"
-//            cell.lblMaestro.text = "MARIA JOSE MEDINA"
-//        } else if indexPath.row == 1 {
-//            cell.lblMateria.text = "ANTROPOLOGIA"
-//            cell.lblMaestro.text = "OLGA ALICIA CHAVEZ"
-//        } else {
-//            cell.lblMateria.text = "LITERATURA MEXICANA"
-//            cell.lblMaestro.text = "CARLOS EDUARDO GONZALEZ GOMEZ"
-//        }
         var data: NSManagedObject = myList[indexPath.row] as! NSManagedObject
         cell.lblMateria.text = (data.valueForKeyPath("materia") as! String)
         cell.lblMaestro.text = (data.valueForKeyPath("maestro") as! String)

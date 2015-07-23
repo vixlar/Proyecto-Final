@@ -31,36 +31,12 @@ class PagosTableViewController: UITableViewController {
     }
 
     @IBAction func actualizarPagos(sender: AnyObject) {
-        //referencia al delegate
-        let appDel: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        //borrar lo que ya exista
+        var mDatos: ManejaDatos = ManejaDatos()
+        mDatos.borrarTodo()
         
-        //referencia al modelo
-        let cntxt: NSManagedObjectContext = appDel.managedObjectContext!
-        let entity = NSEntityDescription.entityForName("Pagos", inManagedObjectContext: cntxt)
-        
-        //borrar lo que ya existía
-        var bas: NSManagedObject!
-        for bas: AnyObject in myList {
-            cntxt.deleteObject(bas as! NSManagedObject)
-        }
-        
-        //crear instancia y poner datos para pago 1
-        var newPago = Pagos(entity:entity!, insertIntoManagedObjectContext: cntxt)
-        newPago.descripcion = "Pago de Inscripción de Inicio de Curso"
-        newPago.fecha = "2014-02-24"
-        cntxt.save(nil)
-        
-        //crear instancia y poner datos para pago 2
-        newPago = Pagos(entity:entity!, insertIntoManagedObjectContext: cntxt)
-        newPago.descripcion = "Pago del mes de Septiembre"
-        newPago.fecha = "2014-09-04"
-        cntxt.save(nil)
-        
-        //crear instancia y poner datos para pago 3
-        newPago = Pagos(entity:entity!, insertIntoManagedObjectContext: cntxt)
-        newPago.descripcion = "Pago del mes de Octubre"
-        newPago.fecha = "2014-10-02"
-        cntxt.save(nil)
+        //actualizar datos
+        mDatos.actualizarDatos()
 
         //recargar la pantalla
         self.viewDidAppear(true)
@@ -90,19 +66,6 @@ class PagosTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! PagosTableViewCell
 
         // Configure the cell...
-        /*
-        if (indexPath.row == 0) {
-            cell.lblConcepto.text = "Pago de Inscripción de Inicio de Curso"
-            cell.lblFecha.text = "2014-02-24"
-        } else if (indexPath.row == 1) {
-            cell.lblConcepto.text = "Pago del mes de Septiembre"
-            cell.lblFecha.text = "2014-09-04"
-        } else {
-            cell.lblConcepto.text = "Pago del mes de Octubre"
-            cell.lblFecha.text = "2014-10-02"
-        }
-        */
-        
         var data: NSManagedObject = myList[indexPath.row] as! NSManagedObject
         cell.lblConcepto.text = (data.valueForKeyPath("descripcion") as! String)
         cell.lblFecha.text = (data.valueForKeyPath("fecha") as! String)
