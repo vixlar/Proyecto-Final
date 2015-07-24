@@ -38,10 +38,7 @@ class AsignaturasTableViewController: UITableViewController {
         
         //Actualizar datos
         mDatos.actualizarDatos()
-        
-        //imprimir prueba
-        //println(newAsignatura)
-        
+                
         self.viewDidAppear(true)
     }
 

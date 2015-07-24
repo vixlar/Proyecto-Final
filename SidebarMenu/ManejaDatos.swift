@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import Alamofire
 
 class ManejaDatos {
     func borrarTodo () {
@@ -68,16 +69,55 @@ class ManejaDatos {
     }
     
     func actualizarDatos () {
+        //leer JSON
+        /*
+        Alamofire.request(.POST, "http://www.unimodelo.edu.mx/servicioescolar/appandroid/getasig.php", parameters: ["cve_pago":"10091444"]).responseJSON {
+            (_, _, JSON, error) in
+            //println(JSON)
+            let infoMaterias = JSON as! [NSDictionary]
+            //println(infoMaterias)
+            for materia in infoMaterias {
+                println(materia["empleado"])
+                println(materia["materia"])
+            }
+        }*/
+        
         //referencia al delegate y al contexto
         let appDel: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let cntxt : NSManagedObjectContext = appDel.managedObjectContext!
-        var entity: NSEntityDescription
+        //var entity: NSEntityDescription
         
         //actualizar Asignaturas
-        entity = NSEntityDescription.entityForName("Asignaturas", inManagedObjectContext: cntxt)!
-        var newAsignatura: Asignaturas
+        //entity = NSEntityDescription.entityForName("Asignaturas", inManagedObjectContext: cntxt)!
+        //var newAsignatura: Asignaturas
+        
+        Alamofire.request(.POST, "http://www.unimodelo.edu.mx/servicioescolar/appandroid/getasig.php", parameters: ["cve_pago":"10091444"]).responseJSON {
+            (_, _, JSON, error) in
+            //println(JSON)
+            var entity: NSEntityDescription
+            entity = NSEntityDescription.entityForName("Asignaturas", inManagedObjectContext: cntxt)!
+            let infoMaterias = JSON as! [NSDictionary]
+            var newAsignatura: Asignaturas
+            //println(infoMaterias)
+            for materia in infoMaterias {
+                //let appDel: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                //var cntxt : NSManagedObjectContext = appDel.managedObjectContext!
+                //var entity: NSEntityDescription
+                //entity = NSEntityDescription.entityForName("Asignaturas", inManagedObjectContext: cntxt)!
+                //var newAsignatura: Asignaturas
+                newAsignatura = Asignaturas(entity:entity, insertIntoManagedObjectContext: cntxt)
+                newAsignatura.materia = materia["materia"] as! String
+                newAsignatura.maestro = materia["empleado"] as! String
+                //newAsignatura.maestro = "Licho"
+                cntxt.save(nil)
+                println(materia["empleado"])
+                println(materia["materia"])
+            }
+        }
+        
         
         //llenar datos
+        /*
         newAsignatura = Asignaturas(entity:entity, insertIntoManagedObjectContext: cntxt)
         newAsignatura.materia = "PROB. POLIT SOC. Y ECON. DEL MEXICO CONTEM"
         newAsignatura.maestro = "MARIA JOSE MEDINA"
@@ -91,8 +131,8 @@ class ManejaDatos {
         newAsignatura = Asignaturas(entity:entity, insertIntoManagedObjectContext: cntxt)
         newAsignatura.materia = "LITERATURA MEXICANA"
         newAsignatura.maestro = "CARLOS EDUARDO GONZALEZ GOMEZ"
-        cntxt.save(nil)
-        
+        cntxt.save(nil)*/
+        /*
         //Actualizar Horarios
         entity = NSEntityDescription.entityForName("Horarios", inManagedObjectContext: cntxt)!
         var newHorario: Horarios
@@ -207,6 +247,6 @@ class ManejaDatos {
         newPago = Pagos(entity:entity, insertIntoManagedObjectContext: cntxt)
         newPago.descripcion = "Pago del mes de Octubre"
         newPago.fecha = "2014-10-02"
-        cntxt.save(nil)
+        cntxt.save(nil)*/
     }
 }
