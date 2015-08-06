@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7701" systemVersion="14E46" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="Asignaturas" representedClassName="PRODUCT_MODULE_NAME.Asignaturas" syncable="YES">
+    <entity name="Asignaturas" representedClassName="Asignaturas" syncable="YES">
         <attribute name="maestro" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="materia" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
-    <entity name="Calificaciones" representedClassName="PRODUCT_MODULE_NAME.Calificaciones" syncable="YES">
+    <entity name="Calificaciones" representedClassName="Calificaciones" syncable="YES">
         <attribute name="final" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="materia" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="ordinario" optional="YES" attributeType="String" syncable="YES"/>
@@ -13,7 +13,7 @@
         <attribute name="parcial3" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="promedio" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
-    <entity name="Horarios" representedClassName="PRODUCT_MODULE_NAME.Horarios" syncable="YES">
+    <entity name="Horarios" representedClassName="Horarios" syncable="YES">
         <attribute name="jueves" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="lunes" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="martes" optional="YES" attributeType="String" syncable="YES"/>
@@ -22,13 +22,13 @@
         <attribute name="sabado" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="viernes" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
-    <entity name="Ordinarios" representedClassName="PRODUCT_MODULE_NAME.Ordinarios" syncable="YES">
+    <entity name="Ordinarios" representedClassName="Ordinarios" syncable="YES">
         <attribute name="fecha" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="hora" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="maestro" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="materia" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
-    <entity name="Pagos" representedClassName="PRODUCT_MODULE_NAME.Pagos" syncable="YES">
+    <entity name="Pagos" representedClassName="Pagos" syncable="YES">
         <attribute name="descripcion" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="fecha" optional="YES" attributeType="String" syncable="YES"/>
     </entity>

@@ -38,7 +38,17 @@ class AsignaturasTableViewController: UITableViewController {
         
         //Actualizar datos
         mDatos.actualizarDatos()
-                
+        
+        //mandar una alerta
+        let alerta = UIAlertController(title: "Título",
+            message: "Datos actualizados",
+            preferredStyle: UIAlertControllerStyle.Alert)
+        let accion = UIAlertAction(title: "Cerrar",
+            style: UIAlertActionStyle.Default) { _ in
+                alerta.dismissViewControllerAnimated(true, completion: nil) }
+        alerta.addAction(accion)
+        self.presentViewController(alerta, animated: true, completion: nil)
+        
         self.viewDidAppear(true)
     }
 

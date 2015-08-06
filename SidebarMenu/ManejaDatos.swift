@@ -32,9 +32,9 @@ class ManejaDatos {
         }
         
         //borrar Horarios
-        freq = NSFetchRequest(entityName: "Horarios")
+        let freqHorarios = NSFetchRequest(entityName: "Horarios")
         
-        myList = cntxt.executeFetchRequest(freq, error: nil)!
+        myList = cntxt.executeFetchRequest(freqHorarios, error: nil)!
         
         for bas: AnyObject in myList {
             cntxt.deleteObject(bas as! NSManagedObject)
@@ -69,184 +69,103 @@ class ManejaDatos {
     }
     
     func actualizarDatos () {
-        //leer JSON
-        /*
-        Alamofire.request(.POST, "http://www.unimodelo.edu.mx/servicioescolar/appandroid/getasig.php", parameters: ["cve_pago":"10091444"]).responseJSON {
-            (_, _, JSON, error) in
-            //println(JSON)
-            let infoMaterias = JSON as! [NSDictionary]
-            //println(infoMaterias)
-            for materia in infoMaterias {
-                println(materia["empleado"])
-                println(materia["materia"])
-            }
-        }*/
-        
         //referencia al delegate y al contexto
         let appDel: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let cntxt : NSManagedObjectContext = appDel.managedObjectContext!
-        //var entity: NSEntityDescription
         
-        //actualizar Asignaturas
-        //entity = NSEntityDescription.entityForName("Asignaturas", inManagedObjectContext: cntxt)!
-        //var newAsignatura: Asignaturas
-        
+        //Actualizar Asignaturas
         Alamofire.request(.POST, "http://www.unimodelo.edu.mx/servicioescolar/appandroid/getasig.php", parameters: ["cve_pago":"10091444"]).responseJSON {
             (_, _, JSON, error) in
-            //println(JSON)
             var entity: NSEntityDescription
-            entity = NSEntityDescription.entityForName("Asignaturas", inManagedObjectContext: cntxt)!
+            let entityAsignaturas = NSEntityDescription.entityForName("Asignaturas", inManagedObjectContext: cntxt)!
             let infoMaterias = JSON as! [NSDictionary]
             var newAsignatura: Asignaturas
-            //println(infoMaterias)
             for materia in infoMaterias {
-                //let appDel: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-                //var cntxt : NSManagedObjectContext = appDel.managedObjectContext!
-                //var entity: NSEntityDescription
-                //entity = NSEntityDescription.entityForName("Asignaturas", inManagedObjectContext: cntxt)!
-                //var newAsignatura: Asignaturas
-                newAsignatura = Asignaturas(entity:entity, insertIntoManagedObjectContext: cntxt)
+                newAsignatura = Asignaturas(entity:entityAsignaturas, insertIntoManagedObjectContext: cntxt)
                 newAsignatura.materia = materia["materia"] as! String
                 newAsignatura.maestro = materia["empleado"] as! String
-                //newAsignatura.maestro = "Licho"
                 cntxt.save(nil)
-                println(materia["empleado"])
-                println(materia["materia"])
             }
         }
         
-        
-        //llenar datos
-        /*
-        newAsignatura = Asignaturas(entity:entity, insertIntoManagedObjectContext: cntxt)
-        newAsignatura.materia = "PROB. POLIT SOC. Y ECON. DEL MEXICO CONTEM"
-        newAsignatura.maestro = "MARIA JOSE MEDINA"
-        cntxt.save(nil)
-        
-        newAsignatura = Asignaturas(entity:entity, insertIntoManagedObjectContext: cntxt)
-        newAsignatura.materia = "ANTROPOLOGIA"
-        newAsignatura.maestro = "OLGA ALICIA CHAVEZ"
-        cntxt.save(nil)
-
-        newAsignatura = Asignaturas(entity:entity, insertIntoManagedObjectContext: cntxt)
-        newAsignatura.materia = "LITERATURA MEXICANA"
-        newAsignatura.maestro = "CARLOS EDUARDO GONZALEZ GOMEZ"
-        cntxt.save(nil)*/
-        /*
         //Actualizar Horarios
-        entity = NSEntityDescription.entityForName("Horarios", inManagedObjectContext: cntxt)!
-        var newHorario: Horarios
-        
-        //llenar datos
-        newHorario = Horarios(entity:entity, insertIntoManagedObjectContext: cntxt)
-        newHorario.materia = "PROB. POLIT. SOC. Y ECON. DEL MEXICO CONTEM"
-        newHorario.lunes = "07-08"
-        newHorario.martes = "-"
-        newHorario.miercoles = "07-08"
-        newHorario.jueves = "-"
-        newHorario.viernes = "-"
-        newHorario.sabado = "-"
-        cntxt.save(nil)
-        
-        newHorario = Horarios(entity:entity, insertIntoManagedObjectContext: cntxt)
-        newHorario.materia = "ANTROPOLOGIA"
-        newHorario.lunes = "08-09"
-        newHorario.martes = "08-09"
-        newHorario.miercoles = "-"
-        newHorario.jueves = "12-13"
-        newHorario.viernes = "-"
-        newHorario.sabado = "-"
-        cntxt.save(nil)
-        
-        newHorario = Horarios(entity:entity, insertIntoManagedObjectContext: cntxt)
-        newHorario.materia = "CONTABILIDAD"
-        newHorario.lunes = "09-10"
-        newHorario.martes = "-"
-        newHorario.miercoles = "09-10"
-        newHorario.jueves = "-"
-        newHorario.viernes = "09-10"
-        newHorario.sabado = "-"
-        cntxt.save(nil)
-        
+        Alamofire.request(.POST, "http://www.unimodelo.edu.mx/servicioescolar/appandroid/gethorario.php", parameters: ["cve_pago":"10091444"]).responseJSON {
+            (_, _, JSON, error) in
+            //var entity: NSEntityDescription
+            let entityHorarios = NSEntityDescription.entityForName("Horarios", inManagedObjectContext: cntxt)!
+            let infoHorarios = JSON as! [NSDictionary]
+            var newHorario: Horarios
+            for horario in infoHorarios {
+                newHorario = Horarios(entity:entityHorarios, insertIntoManagedObjectContext: cntxt)
+                newHorario.materia = horario["materia"] as! String
+                newHorario.lunes = horario["lunes"] as! String
+                newHorario.martes = horario["martes"] as! String
+                newHorario.miercoles = horario["miercoles"] as! String
+                newHorario.jueves = horario["jueves"] as! String
+                newHorario.viernes = horario["viernes"] as! String
+                newHorario.sabado = horario["sabado"] as! String
+                cntxt.save(nil)
+            }
+        }
+
         //Actualizar Calificaciones
-        entity = NSEntityDescription.entityForName("Calificaciones", inManagedObjectContext: cntxt)!
-        var newCalificacion: Calificaciones
-        
-        //lenar datos
-        newCalificacion = Calificaciones(entity:entity, insertIntoManagedObjectContext: cntxt)
-        newCalificacion.materia = "ANTROPOLOGIA"
-        newCalificacion.parcial1 = "92"
-        newCalificacion.parcial2 = "100"
-        newCalificacion.parcial3 = "82"
-        newCalificacion.promedio = "91"
-        newCalificacion.ordinario = "91"
-        newCalificacion.final = "91"
-        cntxt.save(nil)
-        
-        newCalificacion = Calificaciones(entity:entity, insertIntoManagedObjectContext: cntxt)
-        newCalificacion.materia = "CONTABILIDAD"
-        newCalificacion.parcial1 = "79"
-        newCalificacion.parcial2 = "88"
-        newCalificacion.parcial3 = "76"
-        newCalificacion.promedio = "81"
-        newCalificacion.ordinario = "27"
-        newCalificacion.final = "65"
-        cntxt.save(nil)
-        
-        newCalificacion = Calificaciones(entity:entity, insertIntoManagedObjectContext: cntxt)
-        newCalificacion.materia = "EDUCACION FISICA Y ARTISTICA 6"
-        newCalificacion.parcial1 = "A"
-        newCalificacion.parcial2 = "A"
-        newCalificacion.parcial3 = "A"
-        newCalificacion.promedio = "A"
-        newCalificacion.ordinario = "A"
-        newCalificacion.final = "A"
-        cntxt.save(nil)
-        
+        Alamofire.request(.POST, "http://www.unimodelo.edu.mx/servicioescolar/appandroid/getcalif.php", parameters: ["cve_pago":"10091444"]).responseJSON {
+            (_, _, JSON, error) in
+            var entity: NSEntityDescription
+            entity = NSEntityDescription.entityForName("Calificaciones", inManagedObjectContext: cntxt)!
+            let infoCalificaciones = JSON as! [NSDictionary]
+            var newCalificacion: Calificaciones
+            for calificacion in infoCalificaciones {
+                newCalificacion = Calificaciones(entity:entity, insertIntoManagedObjectContext: cntxt)
+                newCalificacion.materia = calificacion["materia"] as! String
+                newCalificacion.parcial1 = calificacion["parcial1"] as! String
+                newCalificacion.parcial2 = calificacion["parcial2"] as! String
+                newCalificacion.parcial3 = calificacion["parcial3"] as! String
+                newCalificacion.promedio = calificacion["promedio"] as! String
+                newCalificacion.ordinario = calificacion["ordinario"] as! String
+                newCalificacion.final = calificacion["califinal"] as! String
+                cntxt.save(nil)
+            }
+        }
+
         //Actualizar Ordinarios
-        entity = NSEntityDescription.entityForName("Ordinarios", inManagedObjectContext: cntxt)!
-        var newOrdinario: Ordinarios
-        
-        //llenar datos
-        newOrdinario = Ordinarios(entity:entity, insertIntoManagedObjectContext: cntxt)
-        newOrdinario.materia = "PROB. POLIT. SOC. Y ECON. DEL MEXICO CONTEMP."
-        newOrdinario.maestro = "MEDINA ANCONA MARIA JOSE"
-        newOrdinario.fecha = "2015-05-26"
-        newOrdinario.hora = "07:00"
-        cntxt.save(nil)
-        
-        newOrdinario = Ordinarios(entity:entity, insertIntoManagedObjectContext: cntxt)
-        newOrdinario.materia = "ANTROPOLOGIA"
-        newOrdinario.maestro = "GIUSTINIANOVIC CHAVEZ OLGA ALICIA"
-        newOrdinario.fecha = "2015-05-28"
-        newOrdinario.hora = "07:00"
-        cntxt.save(nil)
-        
-        newOrdinario = Ordinarios(entity:entity, insertIntoManagedObjectContext: cntxt)
-        newOrdinario.materia = "LITERATURA MEXICANA"
-        newOrdinario.maestro = "GONZALEZ GOMEZ CARLOS EDUARDO"
-        newOrdinario.fecha = "2015-01-19"
-        newOrdinario.hora = "08:00"
-        cntxt.save(nil)
-        
-        //Actualizar pagos
-        entity = NSEntityDescription.entityForName("Pagos", inManagedObjectContext: cntxt)!
-        var newPago: Pagos
-        
-        //llenar datos
-        newPago = Pagos(entity:entity, insertIntoManagedObjectContext: cntxt)
-        newPago.descripcion = "Pago de Inscripción de Inicio de Curso"
-        newPago.fecha = "2014-02-24"
-        cntxt.save(nil)
-        
-        newPago = Pagos(entity:entity, insertIntoManagedObjectContext: cntxt)
-        newPago.descripcion = "Pago del mes de Septiembre"
-        newPago.fecha = "2014-09-04"
-        cntxt.save(nil)
-        
-        newPago = Pagos(entity:entity, insertIntoManagedObjectContext: cntxt)
-        newPago.descripcion = "Pago del mes de Octubre"
-        newPago.fecha = "2014-10-02"
-        cntxt.save(nil)*/
+        Alamofire.request(.POST, "http://www.unimodelo.edu.mx/servicioescolar/appandroid/getord.php", parameters: ["cve_pago":"10091444"]).responseJSON {
+            (_, _, JSON, error) in
+            var entity: NSEntityDescription
+            entity = NSEntityDescription.entityForName("Ordinarios", inManagedObjectContext: cntxt)!
+            let infoOrdinarios = JSON as! [NSDictionary]
+            var newOrdinario: Ordinarios
+            for ordinario in infoOrdinarios {
+                newOrdinario = Ordinarios(entity:entity, insertIntoManagedObjectContext: cntxt)
+                
+                //definir el nombre del maestro
+                var maestroPaterno = ordinario["apepat"] as! String
+                var maestroMaterno = ordinario["apemat"] as! String
+                var maestroNombre = ordinario["nombre"] as! String
+                maestroNombre = "\(maestroPaterno) \(maestroMaterno) \(maestroNombre)"
+                
+                newOrdinario.materia = ordinario["materia"] as! String
+                newOrdinario.maestro = maestroNombre
+                newOrdinario.fecha = ordinario["fecha"] as! String
+                newOrdinario.hora = ordinario["hora"] as! String
+                cntxt.save(nil)
+            }
+        }
+
+        //Actualizar Pagos
+        Alamofire.request(.POST, "http://www.unimodelo.edu.mx/servicioescolar/appandroid/getpagos.php", parameters: ["cve_pago":"10091444"]).responseJSON {
+            (_, _, JSON, error) in
+            var entity: NSEntityDescription
+            entity = NSEntityDescription.entityForName("Pagos", inManagedObjectContext: cntxt)!
+            let infoPagos = JSON as! [NSDictionary]
+            var newPago: Pagos
+            //println(infoPagos)
+            for pago in infoPagos {
+                newPago = Pagos(entity:entity, insertIntoManagedObjectContext: cntxt)
+                newPago.descripcion = pago["descripcion"] as! String
+                newPago.fecha = pago["fechapago"] as! String
+                cntxt.save(nil)
+            }
+        }
     }
 }
